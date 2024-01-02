@@ -9,6 +9,7 @@ package controls;
 import (
    "github.com/gin-gonic/gin"
    "fmt"
+   "server_go/src/classes/httpControl"
 )
 
 /**
@@ -17,6 +18,10 @@ import (
    */
 func SearchOneUser(c *gin.Context) {
    fmt.Println("¡Buscando usuario!")
-   fmt.Println(c)
-   c.JSON(200, gin.H{"mensaje": "¡Perfil de usuario desde el controlador!"})
+   fmt.Println(*c)
+   newRequest := httpControl.HttpRequestControl{
+      BodyRequest: c,
+   }
+   fmt.Println(newRequest.GetBodyRequest())
+   c.JSON(200, gin.H{"Congrulations": "New Year 2024, Happy New Year!"})
 }

@@ -9,10 +9,11 @@ package routes
 // Librerary import
 import (
 	_ "github.com/gin-gonic/gin"
-	"server_go/src/controls"
-   "server_go/src/interfaces/httpRequest"
+	  "server_go/src/controls"
+     "server_go/src/interfaces/httpRequest"
 )
 
+/* Router type declaration */
 func ConfigurarAPIRoutes(router httpRequest.HttpRouter) {
-   router.GET("/saludo", controls.SearchOneUser)
+   router.GET("/new-year", controls.SearchOneUser)
 }
