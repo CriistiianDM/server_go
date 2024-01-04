@@ -15,5 +15,5 @@ import (
 
 /* Router type declaration */
 func ConfigurarAPIRoutes(router httpRequest.HttpRouter) {
-   router.GET("/new-year", controls.SearchOneUser)
+   router.GET("/new-year/:name/:id", controls.SearchOneUser)
 }

@@ -1,47 +1,67 @@
 /**
-   * 
-   * @autor: Cristian Machado <cristian.machado@correounivalle.edu.co>
-   * @copyrigth: 2023
-   * @license: GPL-3.0
-*/
+ *
+ * @autor: Cristian Machado <cristian.machado@correounivalle.edu.co>
+ * @copyrigth: 2023
+ * @license: GPL-3.0
+ */
 package httpControl
 
 import (
 	"fmt"
-  "github.com/gin-gonic/gin"
-  "container/list"
+	"github.com/gin-gonic/gin"
 )
 
 /**
-  *
-  * General Control for HTTP Request
-*/
+ *
+ * General Control for HTTP Request
+ */
 type HttpRequestControl struct {
-  ParamsRequest *list.List
-  BodyRequest *gin.Context
+	BodyRequest *gin.Context
 }
 
-func (p *HttpRequestControl) GetParamsRequest() *list.List {
-  return p.ParamsRequest
+/**
+ * Return all params in request
+ * @return map[string]string
+ */
+func (p HttpRequestControl) GetParamsRequest() map[string]string {
+	_response := make(map[string]string)
+	// Validate if body request is empty
+	if p.BodyRequest != nil {
+		// Get body request
+		c := p.BodyRequest
+		params := c.Params
+
+		// Create a map with the parameters
+		for _, p := range params {
+			_response[p.Key] = p.Value
+		}
+	}
+	return _response
 }
 
+/**
+ * Return Body of request
+ * @return []byte
+ */
 func (p HttpRequestControl) GetBodyRequest() []byte {
-    // Initialize body request
-    _body := []byte{}
-    // Validate if body request is empty
-    if p.BodyRequest != nil {
+	// Initialize body request
+	_body := []byte{}
+	// Validate if body request is empty
+	if p.BodyRequest != nil {
 
-        // Get body request
-        c := p.BodyRequest
+		// Get body request
+		c := p.BodyRequest
 
-        // Get body request
-        body, err := c.GetRawData()
+		// Get body request
+		body, err := c.GetRawData()
 
-        // Validate if body request is not empty
-        if err == nil {
-          _body = body 
-        } else { fmt.Println("No can get body request", err) }
+		// Validate if body request is not empty
+		if err == nil {
+			_body = body
+		} else {
+			fmt.Println("No can get body request", err)
+		}
 
-    }
-    return _body
+	}
+	return _body
 }
