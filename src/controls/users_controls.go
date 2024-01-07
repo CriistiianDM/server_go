@@ -22,6 +22,10 @@ func SearchOneUser(c *gin.Context) {
    newRequest := httpControl.HttpRequestControl{
       BodyRequest: c,
    }
-   fmt.Println(newRequest.GetParamsRequest())
+   fmt.Println("newRequest", newRequest)
+   params := httpControl.GetParamsRequest(newRequest)
+   //sacar el id
+   id := params["id"]
+   fmt.Println("id", id)
    c.JSON(200, gin.H{"Congrulations": "New Year 2024, Happy New Year!"})
 }

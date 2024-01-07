@@ -14,6 +14,7 @@ import (
 )
 
 /* Router type declaration */
-func ConfigurarAPIRoutes(router httpRequest.HttpRouter) {
-   router.GET("/new-year/:name/:id", controls.SearchOneUser)
+func InitializeApiRoutes(router httpRequest.HttpRouter) {
+   router.GET("/new-year/:name/:id", httpRequest.HandleSync(controls.SearchOneUser))
+   router.GET("/new-year2/:name/:id",  httpRequest.HandleSync(controls.SearchOneUser))
 }

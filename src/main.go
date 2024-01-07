@@ -12,13 +12,23 @@ import (
 	"server_go/src/routes"
 )
 
+/**
+  * Main function
+*/
 func main() {
+	_initServer();
+}
+
+/**
+  * Initialize the server
+*/
+func _initServer() {
 	// Initialize the route
 	router := gin.Default()
 
 	// Create a group of routes
 	apiGroup := router.Group("/api")
-	routes.ConfigurarAPIRoutes(apiGroup)
+	routes.InitializeApiRoutes(apiGroup)
 
 	router.Run(":8080")
 }

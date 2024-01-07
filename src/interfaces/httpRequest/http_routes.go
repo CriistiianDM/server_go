@@ -7,7 +7,13 @@
 package httpRequest
 
 // Librerary import
-import "github.com/gin-gonic/gin"
+import (
+  "github.com/gin-gonic/gin"
+  "sync"
+)
+
+// Mutex
+var mutex = &sync.Mutex{}
 
 /* Interface declaration */
 
@@ -32,4 +38,17 @@ type HttpRouter interface {
 
 	// Method DELETE
 	DELETE(relativePath string, handlers ...gin.HandlerFunc) gin.IRoutes
+}
+
+/**
+  * Sync Handlers functions
+  *
+  * @param: gin.HandlerFunc
+**/
+func HandleSync(h gin.HandlerFunc) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		mutex.Lock()
+		defer mutex.Unlock()
+	  h(c)
+	}
 }
