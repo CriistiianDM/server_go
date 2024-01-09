@@ -10,23 +10,21 @@ package routesCompany
 import (
 	"server_go/repository/query"
 	"database/sql"
-	"fmt"
+)
+
+var (
+	sqlInstance = query.GeneralQuery{}
 )
 
 /**
   * Define the Company Routes
 */
-type RoutesGeneral struct {
-	Query query.InterfaceQuery
-}
+type RoutesGeneral struct {}
 
 /**
   * Return all routes of company
 */
-func (r *RoutesGeneral) GetCompanyRoutes() (*sql.Rows, error) {
-	QUERY := "SELECT * FROM routes_company"
-	result , err := r.Query.Query(QUERY)
-	fmt.Println(result)
-	fmt.Println("Queryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy ***********************************")
-	return result, err
+func (r RoutesGeneral) GetCompanyRoutes() (*sql.Rows, error) {
+	_query := "SELECT * FROM routes_company"
+	return query.Query(sqlInstance, _query)
 }

@@ -26,3 +26,4 @@ CREATE INDEX IF NOT EXISTS routes_company_route_idx ON routes_company (route);
 
 -- Insert Data
 INSERT INTO routes_company (route, created_at , updated_at) VALUES ('cristiank', NOW(), NOW());
+INSERT INTO routes_company (route, created_at , updated_at) VALUES ('fosk', NOW(), NOW());

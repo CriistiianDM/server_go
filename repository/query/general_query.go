@@ -23,39 +23,17 @@ type GeneralQuery struct {}
 /**
   * Return all params in request
 */
-func (p *GeneralQuery) Query(sqlQuery string, args ...interface{}) (*sql.Rows, error) {
-	//return p.queryGeneral("Query", sqlQuery ,args...)
-	result, err := p.queryGeneral("Query", sqlQuery, args...)
-    if err != nil {
-        return nil, err
-    }
-
-    // Asegúrate de realizar una aserción de tipo adecuada
-    rows, ok := result.(*sql.Rows)
-    if !ok {
-        return nil, fmt.Errorf("El resultado no es un *sql.Rows")
-    }
-
-    return rows, nil
+func (p GeneralQuery) Query(sqlQuery string, args ...interface{}) (*sql.Rows, error) {
+	dbInstance = db.GetConnection()
+	return dbInstance.Query(sqlQuery, args...)
 }
 
 /**
   * Execute query
 */
-func (p *GeneralQuery) Exec(sqlQuery string, args ...interface{}) (sql.Result, error) {
-	//return p.queryGeneral("Exec", sqlQuery ,args...)
-	result, err := p.queryGeneral("Exec", sqlQuery, args...)
-    if err != nil {
-        return nil, err
-    }
-
-    // Asegúrate de realizar una aserción de tipo adecuada
-    execResult, ok := result.(sql.Result)
-    if !ok {
-        return nil, fmt.Errorf("El resultado no es un sql.Result")
-    }
-
-    return execResult, nil
+func (p GeneralQuery) Exec(sqlQuery string, args ...interface{}) (sql.Result, error) {
+	dbInstance = db.GetConnection()
+	return dbInstance.Exec(sqlQuery, args...)
 }
 
 /**
@@ -63,10 +41,10 @@ func (p *GeneralQuery) Exec(sqlQuery string, args ...interface{}) (sql.Result, e
 */
 func (p *GeneralQuery) queryGeneral(methodName string, sqlQuery string ,args ...interface{}) (interface{}, error) {
 	var ( 
-		result interface{}
+		result = new(sql.Row)
 		Error error
 	)
-
+	dbInstance = db.GetConnection()
 	if sqlQuery != "" {
 		dbValue := reflect.ValueOf(dbInstance)
 
@@ -81,8 +59,8 @@ func (p *GeneralQuery) queryGeneral(methodName string, sqlQuery string ,args ...
 
 			resultValues := method.Call(argValues)
 
-			result = resultValues[0].Interface().(*sql.Row)
-
+			result_ := resultValues[0].Interface().(*sql.Row)
+			fmt.Println("Resulttt", result_)
 		}
 	}
 	return result, Error

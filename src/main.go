@@ -9,12 +9,12 @@ package main
 // Librerary import
 import (
 	"server_go/repository/routesCompany"
-	"server_go/repository/query"
+	 _ "server_go/repository/query"
 	"github.com/gin-gonic/gin"
 	"server_go/src/routes"
 	"server_go/db"
-	"time"
 	"fmt"
+	"sync"
 )
 
 /**
@@ -43,21 +43,22 @@ func _initServer() {
   * Execute all goroutines
 */
 func _executeRun() {
-	go db.Connect()
-	// classRoutes := routesCompany.RoutesGeneral{
-	// 	Query: &query.InterfaceQuery{},
-	// }
-	// result, err := classRoutes.GetCompanyRoutes()
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// fmt.Println(result)
-	time.Sleep(1 * time.Second)
+	// Esto es magia 
+	// Literal tengo el control del tiempo de la concurrencia
+	var wg sync.WaitGroup
+		wg.Add(1)
+		// Cuando acabe la rutina, sigen las demas instrucciones
+		go db.Connect(&wg);
+	wg.Wait()
+	_initRoutesCompany();
 }
 
-func imprimirNumeros() {
-	for i := 1; i <= 5; i++ {
-		time.Sleep(100 * time.Millisecond)
-		fmt.Println(i)
+func _initRoutesCompany() {
+	fmt.Println("Init routes company")
+	companyInstance := routesCompany.RoutesGeneral{}
+	result, err := routesCompany.GetCompanyRoutes(companyInstance)
+	if err != nil {
+		fmt.Println("Error", err)
 	}
+	fmt.Println("Result", result)
 }

@@ -11,42 +11,52 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sync"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
-var db *sql.DB
+var (
+	database *sql.DB
+    once sync.Once
+)
 
 /**
   * Connect to the database
 */
-func Connect() {
-	// Initialize the environment variables
-	getVarEnv()
-	// Get the environment variables
-	var (
-		host = os.Getenv("DB_HOST")
-		port = os.Getenv("DB_PORT")
-		user = os.Getenv("DB_USER")
-		password = os.Getenv("DB_PASSWORD")
-		dbname = os.Getenv("DB_NAME")
-	)
+func Connect(wg *sync.WaitGroup) *sql.DB {
+	// Realiza el llamado una unica vez.
+	once.Do(func() {
+		// Initialize the environment variables
+		getVarEnv()
+		// Get the environment variables
+		var (
+			host = os.Getenv("DB_HOST")
+			port = os.Getenv("DB_PORT")
+			user = os.Getenv("DB_USER")
+			password = os.Getenv("DB_PASSWORD")
+			dbname = os.Getenv("DB_NAME")
+		)
 
-	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+		connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+			host, port, user, password, dbname)
 
-	db, err := sql.Open("postgres", connStr)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
+		db, err := sql.Open("postgres", connStr)
+		if err != nil {
+			log.Fatal(err)
+		}
+		//defer db.Close()
 
-	err = db.Ping()
-	if err != nil {
-		log.Fatal(err)
-	}
+		err = db.Ping()
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	fmt.Println("Conexión exitosa a la base de datos PostgreSQL")
+		fmt.Println("Conexión exitosa a la base de datos PostgreSQL")
+		database = db
+	})
+	defer wg.Done()
+	return database
 }
 
 /**
@@ -62,5 +72,5 @@ func getVarEnv() {
   * Get the database connection
 */
 func GetConnection() *sql.DB {
-	return db
+	return database
 }

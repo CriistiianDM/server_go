@@ -9,7 +9,6 @@ package query
 
 // Librerary import
 import (
-	"fmt"
 	"database/sql"
 )
 
@@ -25,7 +24,6 @@ type InterfaceQuery interface {
   * Return query
 */
 func Query(p InterfaceQuery, sqlQuery string , args ...interface{}) (*sql.Rows, error) {
-	fmt.Println("Queryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy ***********************************")
 	return p.Query(sqlQuery, args...)
 }
 
