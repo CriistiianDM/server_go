@@ -8,10 +8,8 @@ package routes
 
 // Librerary import
 import (
-	_ "github.com/gin-gonic/gin"
 	  "server_go/src/controls"
      "server_go/src/interfaces/httpRequest"
-     "fmt"
 )
 
 /* Router type declaration */

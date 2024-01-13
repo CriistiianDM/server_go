@@ -9,7 +9,6 @@ package main
 // Librerary import
 import (
 	"server_go/repository/routesCompany"
-	 _ "server_go/repository/query"
 	"github.com/gin-gonic/gin"
 	"server_go/src/routes"
 	"server_go/db"
