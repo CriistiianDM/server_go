@@ -8,7 +8,7 @@
 package routesCompany
 
 import (
-	"database/sql"
+	_ "database/sql"
 	_ "fmt"
 )
 
@@ -16,12 +16,12 @@ import (
   * Define the methods of General Company Routes
 */
 type InterfaceCompanyRoutes interface {
-	GetCompanyRoutes() (*sql.Rows, error)
+	GetCompanyRoutes() (map[string]interface{}, error)
 }
 
 /**
   * Return all routes of company
 */
-func GetCompanyRoutes(p InterfaceCompanyRoutes) (*sql.Rows, error) {
+func GetCompanyRoutes(p InterfaceCompanyRoutes) (map[string]interface{}, error) {
 	return p.GetCompanyRoutes()
 }

@@ -9,9 +9,9 @@ package query
 
 import (
 	"server_go/db"
-	"reflect"
+	_ "reflect"
 	"database/sql"
-	"fmt"
+	_ "fmt"
 )
 var dbInstance = db.GetConnection()
 
@@ -39,29 +39,29 @@ func (p GeneralQuery) Exec(sqlQuery string, args ...interface{}) (sql.Result, er
 /**
   * Estrucuture query
 */
-func (p *GeneralQuery) queryGeneral(methodName string, sqlQuery string ,args ...interface{}) (interface{}, error) {
-	var ( 
-		result = new(sql.Row)
-		Error error
-	)
-	dbInstance = db.GetConnection()
-	if sqlQuery != "" {
-		dbValue := reflect.ValueOf(dbInstance)
+// func (p *GeneralQuery) queryGeneral(methodName string, sqlQuery string ,args ...interface{}) (interface{}, error) {
+// 	var ( 
+// 		result = new(sql.Row)
+// 		Error error
+// 	)
+// 	dbInstance = db.GetConnection()
+// 	if sqlQuery != "" {
+// 		dbValue := reflect.ValueOf(dbInstance)
 
-		method := dbValue.MethodByName(methodName)
-		if method.IsValid() {
+// 		method := dbValue.MethodByName(methodName)
+// 		if method.IsValid() {
 
-			argValues := make([]reflect.Value, len(args)+1)
-			argValues[0] = reflect.ValueOf(sqlQuery)
-			for i, arg := range args {
-				argValues[i+1] = reflect.ValueOf(arg)
-			}
+// 			argValues := make([]reflect.Value, len(args)+1)
+// 			argValues[0] = reflect.ValueOf(sqlQuery)
+// 			for i, arg := range args {
+// 				argValues[i+1] = reflect.ValueOf(arg)
+// 			}
 
-			resultValues := method.Call(argValues)
+// 			resultValues := method.Call(argValues)
 
-			result_ := resultValues[0].Interface().(*sql.Row)
-			fmt.Println("Resulttt", result_)
-		}
-	}
-	return result, Error
-}
+// 			result_ := resultValues[0].Interface().(*sql.Row)
+// 			fmt.Println("Resulttt", result_)
+// 		}
+// 	}
+// 	return result, Error
+// }

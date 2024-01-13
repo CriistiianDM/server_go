@@ -11,10 +11,14 @@ import (
 	_ "github.com/gin-gonic/gin"
 	  "server_go/src/controls"
      "server_go/src/interfaces/httpRequest"
+     "fmt"
 )
 
 /* Router type declaration */
-func InitializeApiRoutes(router httpRequest.HttpRouter) {
-   router.GET("/new-year/:name/:id", httpRequest.HandleSync(controls.SearchOneUser))
-   router.GET("/new-year2/:name/:id",  httpRequest.HandleSync(controls.SearchOneUser))
+func InitializeApiRoutes(router httpRequest.HttpRouter , allRoutes map[string]interface{}) {
+   if allRoutes != nil || len(allRoutes) != 0 {
+      for key := range allRoutes {
+         router.GET(key, httpRequest.HandleSync(controls.SearchOneUser))
+      }
+   }
 }

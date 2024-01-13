@@ -31,10 +31,10 @@ func main() {
 func _initServer() {
 	// Initialize the route
 	router := gin.Default()
-
+	generateRoutes := _initRoutesCompany()
 	// Create a group of routes
 	apiGroup := router.Group("/api")
-	routes.InitializeApiRoutes(apiGroup)
+	routes.InitializeApiRoutes(apiGroup, generateRoutes)
 
 	router.Run(":8080")
 }
@@ -50,15 +50,18 @@ func _executeRun() {
 		// Cuando acabe la rutina, sigen las demas instrucciones
 		go db.Connect(&wg);
 	wg.Wait()
-	_initRoutesCompany();
 }
 
-func _initRoutesCompany() {
-	fmt.Println("Init routes company")
+/**
+  * Initialize the routes
+*/
+func _initRoutesCompany() map[string]interface{} {
 	companyInstance := routesCompany.RoutesGeneral{}
 	result, err := routesCompany.GetCompanyRoutes(companyInstance)
 	if err != nil {
-		fmt.Println("Error", err)
+		fmt.Println("Error ummm", err)
+		result = make(map[string]interface{})
 	}
-	fmt.Println("Result", result)
+
+	return result
 }

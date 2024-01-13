@@ -24,7 +24,7 @@ var (
 /**
   * Connect to the database
 */
-func Connect(wg *sync.WaitGroup) *sql.DB {
+func Connect(wg *sync.WaitGroup) {
 	// Realiza el llamado una unica vez.
 	once.Do(func() {
 		// Initialize the environment variables
@@ -56,7 +56,6 @@ func Connect(wg *sync.WaitGroup) *sql.DB {
 		database = db
 	})
 	defer wg.Done()
-	return database
 }
 
 /**
