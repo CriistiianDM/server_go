@@ -8,7 +8,7 @@ package controls;
 
 import (
    "github.com/gin-gonic/gin"
-   "fmt"
+    _ "fmt"
    "server_go/src/classes/httpControl"
    "server_go/repository/productsQuerys"
 )
@@ -22,14 +22,18 @@ var (
    * Search in user in database
    * @param user
 */
-func SearchOneUser(c *gin.Context) {
+func GetProductsCompany(c *gin.Context) {
    newRequest.BodyRequest = c
-   fmt.Println("newRequest", newRequest)
-   params := httpControl.GetParamsRequest(newRequest)
-   //sacar el id
-   id := params["id"]
-   fmt.Println("id", id)
-   c.JSON(200, gin.H{"Congrulations": "New Year 2024, Happy New Year!"})
+   params := httpControl.GetBodyRequest(newRequest)
+   result, err := instanceQuerys.GetProductsPerCompany(params)
+   status := 500
+   _res := gin.H{"response": false , "message": "Error get products"}
+
+   if err == nil {
+      status = 200
+      _res = result
+   }
+   c.JSON(status, _res)
 }
 
 /**
