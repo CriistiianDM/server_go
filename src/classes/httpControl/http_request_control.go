@@ -9,6 +9,7 @@ package httpControl
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"encoding/json"
 )
 
 /**
@@ -43,9 +44,9 @@ func (p HttpRequestControl) GetParamsRequest() map[string]string {
  * Return Body of request
  * @return []byte
  */
-func (p HttpRequestControl) GetBodyRequest() []byte {
+func (p HttpRequestControl) GetBodyRequest() map[string]interface{} {
 	// Initialize body request
-	_body := []byte{}
+	_body := make(map[string]interface{})
 	// Validate if body request is empty
 	if p.BodyRequest != nil {
 
@@ -57,7 +58,11 @@ func (p HttpRequestControl) GetBodyRequest() []byte {
 
 		// Validate if body request is not empty
 		if err == nil {
-			_body = body
+						
+			err := json.Unmarshal(body, &_body)
+			if err != nil {
+				_body = make(map[string]interface{})
+			}
 		} else {
 			fmt.Println("No can get body request", err)
 		}

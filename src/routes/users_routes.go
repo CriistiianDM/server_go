@@ -17,6 +17,8 @@ func InitializeApiRoutes(router httpRequest.HttpRouter , allRoutes map[string]in
    if allRoutes != nil || len(allRoutes) != 0 {
       for key := range allRoutes {
          router.GET(key, httpRequest.HandleSync(controls.SearchOneUser))
+         //POST
+         router.POST(key, httpRequest.HandleSync(controls.Insertproduct))
       }
    }
 }

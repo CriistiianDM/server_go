@@ -11,7 +11,7 @@ package httpControl
 */
 type InterfaceControlHttp interface {
 	GetParamsRequest() map[string]string
-	GetBodyRequest() []byte
+	GetBodyRequest() map[string]interface{} 
 }
 
 /**
@@ -26,6 +26,6 @@ func GetParamsRequest(p InterfaceControlHttp) map[string]string {
   * Return Body of request
   * @return []byte
 */
-func GetBodyRequest(p InterfaceControlHttp) []byte {
+func GetBodyRequest(p InterfaceControlHttp) map[string]interface{} {
 	return p.GetBodyRequest()
 }
