@@ -15,7 +15,6 @@ import (
     "encoding/base64"
 	"encoding/json"
     "io"
-	"fmt"
 )
 
 var (
@@ -107,10 +106,8 @@ func ResponseControlGeneral(c *gin.Context , args ...map[string]interface{}) {
 	
 	if err ==  nil {
 		encryptedRes, err := encrypt(jsonRes, _key)
-		fmt.Println(err,"aaa2")
 		if err == nil {
 			encryptedBase64 := base64.StdEncoding.EncodeToString(encryptedRes)
-			fmt.Println(encryptedBase64,"aaa")
 			_res = gin.H{"res": encryptedBase64}
 		}
 	}
@@ -146,6 +143,6 @@ func encrypt(data []byte, key []byte) ([]byte, error) {
 		stream := cipher.NewCTR(block, iv)
 		stream.XORKeyStream(ciphertext[aes.BlockSize:], data)
     }
-	
+
     return ciphertext, nil
 }
