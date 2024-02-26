@@ -21,7 +21,7 @@ var (
 type AllowedIpsUtils struct {}
 
 /**
-  * Get Follower per user_account
+  * Return all allowed ips
 */
 func (p AllowedIpsUtils) GetAllowedIps(args ...interface{}) ([]map[string]interface{}, error) {
 	return utils.ExecuteFileSql(_query_allowed_ip, args...);

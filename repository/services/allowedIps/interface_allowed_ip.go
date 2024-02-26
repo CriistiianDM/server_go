@@ -13,7 +13,7 @@ type InterfaceAllowedIp interface {
 }
 
 /**
-  * Return followers of user per user_account
+  * Return all allowed ips
 */
 func GetAllowedIps(p InterfaceAllowedIp , args ...interface{}) ([]map[string]interface{}, error) {
 	return p.GetAllowedIps(args...)
