@@ -1,7 +1,7 @@
 /**
  *
  * @autor: Cristian Machado <cristian.machado@correounivalle.edu.co>
- * @copyrigth: 2023
+ * @copyrigth: 2024
  * @license: GPL-3.0
 */
 
@@ -35,33 +35,3 @@ func (p GeneralQuery) Exec(sqlQuery string, args ...interface{}) (sql.Result, er
 	dbInstance = db.GetConnection()
 	return dbInstance.Exec(sqlQuery, args...)
 }
-
-/**
-  * Estrucuture query
-*/
-// func (p *GeneralQuery) queryGeneral(methodName string, sqlQuery string ,args ...interface{}) (interface{}, error) {
-// 	var ( 
-// 		result = new(sql.Row)
-// 		Error error
-// 	)
-// 	dbInstance = db.GetConnection()
-// 	if sqlQuery != "" {
-// 		dbValue := reflect.ValueOf(dbInstance)
-
-// 		method := dbValue.MethodByName(methodName)
-// 		if method.IsValid() {
-
-// 			argValues := make([]reflect.Value, len(args)+1)
-// 			argValues[0] = reflect.ValueOf(sqlQuery)
-// 			for i, arg := range args {
-// 				argValues[i+1] = reflect.ValueOf(arg)
-// 			}
-
-// 			resultValues := method.Call(argValues)
-
-// 			result_ := resultValues[0].Interface().(*sql.Row)
-// 			fmt.Println("Resulttt", result_)
-// 		}
-// 	}
-// 	return result, Error
-// }

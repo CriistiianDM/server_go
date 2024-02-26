@@ -1,19 +1,25 @@
 /**
    * 
    * @autor: Cristian Machado <cristian.machado@correounivalle.edu.co>
-   * @copyrigth: 2023
+   * @copyrigth: 2024
    * @license: GPL-3.0
 */
 package main
 
 // Librerary import
 import (
-	"server_go/repository/routesCompany"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
+	"server_go/repository/services/defaultRoutes"
 	"server_go/src/routes"
 	"server_go/db"
 	"fmt"
 	"sync"
+)
+
+// Constants
+var (
+	instanceRoutes = defaultRoutes.GeneralRoutes{}
 )
 
 /**
@@ -28,25 +34,25 @@ func main() {
   * Initialize the server
 */
 func _initServer() {
-	// Initialize the route
-	router := gin.Default()
-	generateRoutes := _initRoutesCompany()
-	// Create a group of routes
-	apiGroup := router.Group("/api")
-	routes.InitializeApiRoutes(apiGroup, generateRoutes)
+	generateRoutes := _initRoutes()
 
-	router.Run(":8080")
+	if len(generateRoutes) != 0 {
+		router := gin.Default();
+		router.Use(cors.Default())
+		// Create a group of routes
+		apiGroup := router.Group("/api")
+		// Init all routes
+		routes.InitializeRoutes(apiGroup, generateRoutes)
+		router.Run(":4700")
+	}
 }
 
 /**
   * Execute all goroutines
 */
 func _executeRun() {
-	// Esto es magia 
-	// Literal tengo el control del tiempo de la concurrencia
 	var wg sync.WaitGroup
 		wg.Add(1)
-		// Cuando acabe la rutina, sigen las demas instrucciones
 		go db.Connect(&wg);
 	wg.Wait()
 }
@@ -54,13 +60,12 @@ func _executeRun() {
 /**
   * Initialize the routes
 */
-func _initRoutesCompany() map[string]interface{} {
-	companyInstance := routesCompany.RoutesGeneral{}
-	result, err := routesCompany.GetCompanyRoutes(companyInstance)
+func _initRoutes() []map[string]interface{} {
+	response, err := defaultRoutes.GetAllRoutes(instanceRoutes)
 	if err != nil {
-		fmt.Println("Error ummm", err)
-		result = make(map[string]interface{})
+		fmt.Println("Error in get routes", err)
+		response = make([]map[string]interface{},0)
 	}
 
-	return result
+	return response
 }

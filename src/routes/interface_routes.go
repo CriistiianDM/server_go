@@ -1,10 +1,10 @@
 /**
    * 
    * @autor: Cristian Machado <cristian.machado@correounivalle.edu.co>
-   * @copyrigth: 2023
+   * @copyrigth: 2024
    * @license: GPL-3.0
 */
-package httpRequest
+package routes;
 
 // Librerary import
 import (
@@ -18,7 +18,6 @@ var mutex = &sync.Mutex{}
 /* Interface declaration */
 
 /**
-  *
   * @decorator: HttpRouter
   * @description: This interface is used to define the methods of the router
   * @method: GET

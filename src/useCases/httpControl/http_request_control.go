@@ -1,15 +1,17 @@
 /**
  *
  * @autor: Cristian Machado <cristian.machado@correounivalle.edu.co>
- * @copyrigth: 2023
+ * @copyrigth: 2024
  * @license: GPL-3.0
 */
+
 package httpControl
 
 import (
-	"fmt"
-	"github.com/gin-gonic/gin"
 	"encoding/json"
+	"fmt"
+
+	"github.com/gin-gonic/gin"
 )
 
 /**
@@ -42,7 +44,7 @@ func (p HttpRequestControl) GetParamsRequest() map[string]string {
 
 /**
  * Return Body of request
- * @return []byte
+ * @return map[string]interface{}
  */
 func (p HttpRequestControl) GetBodyRequest() map[string]interface{} {
 	// Initialize body request
@@ -58,7 +60,7 @@ func (p HttpRequestControl) GetBodyRequest() map[string]interface{} {
 
 		// Validate if body request is not empty
 		if err == nil {
-						
+
 			err := json.Unmarshal(body, &_body)
 			if err != nil {
 				_body = make(map[string]interface{})

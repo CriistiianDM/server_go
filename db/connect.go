@@ -1,9 +1,9 @@
 /**
  *
  * @autor: Cristian Machado <cristian.machado@correounivalle.edu.co>
- * @copyrigth: 2023
+ * @copyrigth: 2024
  * @license: GPL-3.0
- */
+*/
 package db
 
 import (
@@ -18,11 +18,11 @@ import (
 
 var (
 	database *sql.DB
-    once sync.Once
+	once sync.Once
 )
 
 /**
-  * Connect to the database
+* Connect to the database
 */
 func Connect(wg *sync.WaitGroup) {
 	// Realiza el llamado una unica vez.
@@ -59,7 +59,7 @@ func Connect(wg *sync.WaitGroup) {
 }
 
 /**
-  * Get the environment variables
+* Get the environment variables
 */
 func getVarEnv() {
 	if err := godotenv.Load(); err != nil {
@@ -68,7 +68,7 @@ func getVarEnv() {
 }
 
 /**
-  * Get the database connection
+* Get the database connection
 */
 func GetConnection() *sql.DB {
 	return database
