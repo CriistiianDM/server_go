@@ -20,7 +20,7 @@ var (
 )
 
 /**
- * Return Follower per user
+ * Return All ips allowed
  */
 func GetData(c *gin.Context) {
 	defaultCases.BodyGetData(instanceDefault, c)

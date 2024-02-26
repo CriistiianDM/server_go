@@ -12,7 +12,7 @@ package config;
 */
 func ConfigMapSql() map[string]string {
 	return map[string]string{
-		"default_routes": "SELECT * FROM get_default_routes()",
-		"get_data": "",
+		"default_routes": "all_routes",
+		"get_allowed_ips": "allowed_ips",
 	}
 }

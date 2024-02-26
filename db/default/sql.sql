@@ -48,20 +48,6 @@ CREATE TABLE  IF NOT EXISTS routes_defautls (
 
 -- FUNCTIONS - QUERYS
 
--- Default Routes
-CREATE OR REPLACE FUNCTION get_default_routes()
-RETURNS TABLE (
-    route_ VARCHAR(50)
-)
-AS $$
-BEGIN
-    RETURN QUERY
-    SELECT route as route_
-    FROM routes_defautls;
-END;
-$$
-LANGUAGE plpgsql;
-
 -- Insert Rows Values
 
 INSERT INTO routes_defautls (route) 

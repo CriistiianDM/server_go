@@ -25,5 +25,5 @@ type GeneralRoutes struct {}
   * Get data of all routes
 */
 func (p GeneralRoutes) GetAllRoutes() ([]map[string]interface{}, error) {
-	return utils.GetDataQuery(_get_routes)
+	return utils.ExecuteFileSql(_get_routes)
 }

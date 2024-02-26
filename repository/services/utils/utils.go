@@ -11,7 +11,10 @@ package utils
 import (
 	"server_go/repository/query"
 	"database/sql"
+	"io/ioutil"
+	"path/filepath"
 	"fmt"
+	"os"
 )
 
 var (
@@ -113,4 +116,25 @@ func ConvertInterfaceSlice(data []*int) []interface{} {
     }
 
     return result
+}
+
+/**
+  * Execute file sql query
+*/
+func ExecuteFileSql(fileSql string , args ...interface{}) ([]map[string]interface{}, error) {
+	var query_ []byte
+	mapArray := make([]map[string]interface{}, 0)
+	dir, is_error := os.Getwd()
+
+    if is_error == nil {
+		route := filepath.Join(dir, "db", "sql", fmt.Sprintf("%s.sql", fileSql))
+		query_, is_error = ioutil.ReadFile(route)
+
+		if is_error == nil {
+			mapArray, is_error = GetDataQuery(string(query_),args...)
+		}
+    }
+
+	// Return result
+	return mapArray, is_error
 }

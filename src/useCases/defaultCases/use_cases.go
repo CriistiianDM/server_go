@@ -9,12 +9,13 @@ package defaultCases
 
 import (
 	"server_go/src/domain/utils"
+	"server_go/src/domain/defaultDomain"	
 
 	"github.com/gin-gonic/gin"
 )
 
 var (
-	requestParamns = utils.StateDefaultReq()
+	instanceDom = defaultDomain.DefaultDomain{}
 )
 
 type UseCasesDefault struct{}
@@ -23,5 +24,7 @@ type UseCasesDefault struct{}
    Return body of request
 */
 func (p UseCasesDefault) BodyGetData(c *gin.Context) {
+	requestParamns := utils.StateDefaultReq()
+	defaultDomain.DomGetData(instanceDom,&requestParamns)
 	utils.ResponseControlGeneral(c, requestParamns)
 }
