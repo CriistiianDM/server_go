@@ -9,6 +9,17 @@ package utils;
 
 import (
 	"github.com/gin-gonic/gin"
+	"crypto/aes"
+    "crypto/cipher"
+    "crypto/rand"
+    "encoding/base64"
+	"encoding/json"
+    "io"
+	"fmt"
+)
+
+var (
+	keyToken = "12378chhcbcg673gfsvgh654"
 )
 
 /**
@@ -86,10 +97,22 @@ func ResponseControlGeneral(c *gin.Context , args ...map[string]interface{}) {
 	// Instance data of the request
 	response := args[0]
 	_status := response["status"].(int)
+	_key := []byte(keyToken)
 	_res := gin.H{
 		"data": response["data"],
 		"status": response["statusReq"], 
 		"message": response["message_default"],
+	}
+	jsonRes, err := json.Marshal(_res)
+	
+	if err ==  nil {
+		encryptedRes, err := encrypt(jsonRes, _key)
+		fmt.Println(err,"aaa2")
+		if err == nil {
+			encryptedBase64 := base64.StdEncoding.EncodeToString(encryptedRes)
+			fmt.Println(encryptedBase64,"aaa")
+			_res = gin.H{"res": encryptedBase64}
+		}
 	}
 
 	c.JSON(_status, _res);
@@ -105,4 +128,24 @@ func StateDefaultReq() map[string]interface{} {
 		"message_default": "Error in request",	
 		"status": 500,
 	}
+}
+
+/* encrypt AES */
+func encrypt(data []byte, key []byte) ([]byte, error) {
+    block, err := aes.NewCipher(key)
+	var ciphertext []byte
+
+    if err == nil {
+
+		ciphertext = make([]byte, aes.BlockSize + len(data))
+		iv := ciphertext[:aes.BlockSize]
+		if _, err := io.ReadFull(rand.Reader, iv); err != nil {
+			return nil, err
+		}
+	
+		stream := cipher.NewCTR(block, iv)
+		stream.XORKeyStream(ciphertext[aes.BlockSize:], data)
+    }
+	
+    return ciphertext, nil
 }
