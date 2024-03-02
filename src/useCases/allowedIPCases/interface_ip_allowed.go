@@ -5,7 +5,7 @@
  * @license: GPL-3.0
 */
 
-package defaultCases
+package allowedIPCases
 
 import (
 	"github.com/gin-gonic/gin"	

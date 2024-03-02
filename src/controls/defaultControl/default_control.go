@@ -9,19 +9,19 @@ package defaultControl
 
 // Librerary import
 import (
-	"server_go/src/useCases/defaultCases"
+	"server_go/src/useCases/allowedIPCases"
 
 	"github.com/gin-gonic/gin"
 )
 
 // Vars
 var (
-	instanceDefault = defaultCases.UseCasesDefault{}
+	instanceDefault = allowedIPCases.UseCasesallowedIP{}
 )
 
 /**
  * Return All ips allowed
  */
 func GetData(c *gin.Context) {
-	defaultCases.BodyGetData(instanceDefault, c)
+	allowedIPCases.BodyGetData(instanceDefault, c)
 }

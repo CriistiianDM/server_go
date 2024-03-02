@@ -5,7 +5,7 @@
  * @license: GPL-3.0
 */
 
-package defaultDomain
+package allowedIPDomain
 
 import (
 	"server_go/repository/services/allowedIps"
@@ -16,12 +16,12 @@ var (
 	instanceIp = allowedIps.AllowedIpsUtils{}
 )
 
-type DefaultDomain struct {}
+type AllowedIPStruct struct {}
 
 /**
   * Return all allowed ips
 */
-func (p DefaultDomain) DomGetData(args *map[string]interface{}) {
+func (p AllowedIPStruct) DomGetData(args *map[string]interface{}) {
 	if len(*args) > 0 {
 		_response, is_error := allowedIps.GetAllowedIps(instanceIp, []interface{}{true}...)
 		

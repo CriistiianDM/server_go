@@ -5,26 +5,26 @@
  * @license: GPL-3.0
 */
 
-package defaultCases
+package allowedIPCases
 
 import (
 	"server_go/src/domain/utils"
-	"server_go/src/domain/defaultDomain"	
+	"server_go/src/domain/allowedIPDomain"	
 
 	"github.com/gin-gonic/gin"
 )
 
 var (
-	instanceDom = defaultDomain.DefaultDomain{}
+	instanceDom = allowedIPDomain.AllowedIPStruct{}
 )
 
-type UseCasesDefault struct{}
+type UseCasesallowedIP struct{}
 
 /**
    Return body of request
 */
-func (p UseCasesDefault) BodyGetData(c *gin.Context) {
+func (p UseCasesallowedIP) BodyGetData(c *gin.Context) {
 	requestParamns := utils.StateDefaultReq()
-	defaultDomain.DomGetData(instanceDom,&requestParamns)
+	allowedIPDomain.DomGetData(instanceDom,&requestParamns)
 	utils.ResponseControlGeneral(c, requestParamns)
 }

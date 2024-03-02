@@ -5,16 +5,16 @@
  * @license: GPL-3.0
 */
 
-package defaultDomain
+package allowedIPDomain
 
 /** Interface */
-type InterfaceDefaultDomain interface {
+type InterfaceAlloIP interface {
 	DomGetData(p *map[string]interface{})
 }
 
 /**
   * Return all allowed ips
 */
-func DomGetData(p InterfaceDefaultDomain , args *map[string]interface{}) {
+func DomGetData(p InterfaceAlloIP , args *map[string]interface{}) {
 	p.DomGetData(args)
 }
