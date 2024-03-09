@@ -27,5 +27,14 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+
+  # Enabled when using microservices
+  # kafka_server:
+  #   build:
+  #     context: .
+  #     dockerfile: kafka/Dockerfile
+  #   ports:
+  #     - "9092:9092"
+
 volumes:
   postgres_data:
