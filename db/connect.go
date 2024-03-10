@@ -38,22 +38,24 @@ func Connect(wg *sync.WaitGroup) {
 			dbname = os.Getenv("DB_NAME")
 		)
 
-		connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		if isNotEmptyEnv(host,port,user,password,dbname) {
+			connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 			host, port, user, password, dbname)
 
-		db, err := sql.Open("postgres", connStr)
-		if err != nil {
-			log.Fatal(err)
-		}
-		//defer db.Close()
+			db, err := sql.Open("postgres", connStr)
+			if err != nil {
+				log.Fatal(err)
+			}
+			//defer db.Close()
 
-		err = db.Ping()
-		if err != nil {
-			log.Fatal(err)
-		}
+			err = db.Ping()
+			if err != nil {
+				log.Fatal(err)
+			}
 
-		fmt.Println("Conexión exitosa a la base de datos PostgreSQL")
-		database = db
+			fmt.Println("Conexión exitosa a la base de datos PostgreSQL")
+			database = db
+		}
 	})
 	defer wg.Done()
 }
@@ -63,7 +65,7 @@ func Connect(wg *sync.WaitGroup) {
 */
 func getVarEnv() {
 	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error cargando el archivo .env")
+		fmt.Println("Failed to load .env file, using environment variables")
 	}
 }
 
@@ -72,4 +74,22 @@ func getVarEnv() {
 */
 func GetConnection() *sql.DB {
 	return database
+}
+
+/**
+  * Validate if propierties of file .env have info
+*/
+func isNotEmptyEnv(args ...string) bool {
+	isEmpty := false
+
+	if len(args) > 0 {
+		for _, env := range args {
+			if env == "" {
+				isEmpty = false
+				break
+			} else {isEmpty = true}
+		}
+	}
+	
+	return isEmpty
 }
