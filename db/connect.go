@@ -12,6 +12,7 @@ import (
 	"log"
 	"os"
 	"sync"
+	"time"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
@@ -55,6 +56,7 @@ func Connect(wg *sync.WaitGroup) {
 						break
 					}
 				}
+				time.Sleep(3000 * time.Millisecond)
 			}
 
 			if err != nil {
