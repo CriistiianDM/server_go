@@ -39,16 +39,24 @@ func Connect(wg *sync.WaitGroup) {
 		)
 
 		if isNotEmptyEnv(host,port,user,password,dbname) {
-			connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-			host, port, user, password, dbname)
+			var (
+				connStr = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+				host, port, user, password, dbname)
+				maxAttempts = 5
+				db *sql.DB
+				err error
+			)
 
-			db, err := sql.Open("postgres", connStr)
-			if err != nil {
-				log.Fatal(err)
+			for i := 1; i <= maxAttempts; i++ {
+				db, err = sql.Open("postgres", connStr)
+				if err == nil {
+					err = db.Ping()
+					if err == nil {
+						break
+					}
+				}
 			}
-			//defer db.Close()
 
-			err = db.Ping()
 			if err != nil {
 				log.Fatal(err)
 			}
